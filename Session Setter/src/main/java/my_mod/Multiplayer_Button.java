@@ -14,16 +14,11 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 import net.minecraft.client.User;
 import java.lang.reflect.Field;
-
-import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
 public class Multiplayer_Button {
     private static final Method addRenderableWidget = ObfuscationReflectionHelper.findMethod(Screen.class, "addRenderableWidget", GuiEventListener.class);
-    private static final Component TITLE = Component.translatable("Session ID Button");
-    private static final Component button_name = Component.translatable("Set SessionID");
 
     private EditBox sessionIDInput;
     private EditBox nameInput;
