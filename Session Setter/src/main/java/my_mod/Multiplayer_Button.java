@@ -72,28 +72,38 @@ public class Multiplayer_Button {
     }
 
     private void onButtonPress(Button button) {
+        // get sessionId and name from text box
         String sessionId = sessionIDInput.getValue();
         String name = nameInput.getValue();
 
+        // return if the text box is empty
         if (sessionId.isEmpty() || name.isEmpty()) return;
 
         try {
+            // get current user
             User user = Minecraft.getInstance().getUser();
 
+            // split session id into accessToken and uuid
             String[] parts = sessionId.split(":");
+
+            // return if invalid session id
             if (parts.length != 3) return;
 
+            // set variables
             String accessToken = parts[1];
             UUID uuid = UndashedUuid.fromString(parts[2]);
 
+            // make name field accessible and set name
             Field nameField = User.class.getDeclaredField("name");
             nameField.setAccessible(true);
             nameField.set(user, name);
 
+            // make name field accessible and set accessToken
             Field accessTokenField = User.class.getDeclaredField("accessToken");
             accessTokenField.setAccessible(true);
             accessTokenField.set(user, accessToken);
 
+            // make name field accessible and set uuid
             Field uuidField = User.class.getDeclaredField("uuid");
             uuidField.setAccessible(true);
             uuidField.set(user, uuid);
